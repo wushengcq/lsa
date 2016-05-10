@@ -3,7 +3,7 @@
 import itertools, nltk, string
 import numpy as np 
 from nltk.stem import PorterStemmer, WordNetLemmatizer
-from mylsa import *
+from core import *
 
 class WordDocMatrix(object):
     def __init__(self, stop_words, ignore_chars):
@@ -89,18 +89,16 @@ class WordDocMatrix(object):
                  
 
 if __name__ == "__main__":
-    stop_words1 = nltk.corpus.stopwords.words('english')
-    stop_words2 = ['and','edition','for','in','little','of','the','to']
+    stop_words = nltk.corpus.stopwords.words('english')
     ignore_chars = string.punctuation
-    corpus = "./geothermal-samples.txt"
-    corpus = "./corpus2.txt"
-    corpus = "./gmd-corpus.txt"
-    wdm = WordDocMatrix(stop_words1, ignore_chars)
+    corpus = "../corpus/corpus4.txt"
+    wdm = WordDocMatrix(stop_words, ignore_chars)
     with open(corpus) as f:
         for counter, line in enumerate(f):
             wdm.parseDoc(line.rstrip('\n'))
-            if counter >= 2000:
+            if counter >= 20:
                 break
+
     wdm.build()
     logging = False    
 
@@ -125,9 +123,9 @@ if __name__ == "__main__":
     mylsa.sortedCosineSimilarity()
     '''
     
-    with open("./sql.txt") as f:
+    with open("../corpus/sql4.txt") as f:
         for i,line in enumerate(f):
-            if i > 0: break;
+            if i > 20: break;
             query_vector = wdm.buildQueryVector(line.rstrip("\n"))
             if logging : print query_vector
             print "---------- query sql -----------"
